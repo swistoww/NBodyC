@@ -1,0 +1,2 @@
+dodać pole do struktury określające czy ciało jest w centrum czy nie
+zapamiętywanie największej odległości od ciała będącego w środku żeby wykorzystać do ustalania wielkości planszy
