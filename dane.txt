@@ -1,10 +1,10 @@
 ------
 Name: ziemia
 Mass: 10
-Position: 56,51
-Velocity: 10,2
+Position: 56,51,22
+Velocity: 10,2,4
 ------
 Name: mars
 Mass: 5
-Position: 30,23
-Velocity: 40,21
+Position: 30,23,5
+Velocity: 40,21,33

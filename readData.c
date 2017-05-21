@@ -3,15 +3,31 @@
 //
 
 #include "readData.h"
+//#include "globalVariables.h"
 
 struct body *readData(char **filename, int nFiles) {
 
-    int size = checkBodyAmount(filename, nFiles), j, index = 0;
+    size = checkBodyAmount(filename, nFiles);
+    if (size < 2){
+        printf("Mam zbyt malo danych. %d to zbyt malo zeby dalo sie przeprowadzic symulacje.", size);
+        exit(1);
+    }
+    int j, index = 0;
 
     dataBank = malloc(size * sizeof(struct body));
 
+    /*for (int k = 0; k < size; k++){
+        dataBank[k].name = NULL;
+        dataBank[k].posX = NULL;
+        dataBank[k].posY = NULL;
+        dataBank[k].posZ = NULL;
+        dataBank[k].velocityX = NULL;
+        dataBank[k].velocityY = NULL;
+        dataBank[k].velocityZ = NULL;
+    }*/
+
     for (j = 0; j < nFiles; j++){
-        getDataFromFile(filename[j], index);
+        index = getDataFromFile(filename[j], index);
     }
 
     return  dataBank;
@@ -23,15 +39,24 @@ int checkBodyAmount(char **filename, int nFiles) {
 
     for (i = 0; i < nFiles; i++) {
         FILE *fp = fopen(filename[i], "r");
+        if(fp == NULL){
+            char ans[3];
+            printf("Nie moge otworzyc pliku %s.\n", filename[i]);
+            printf("Czy mimo to kontynuowac? (Tak/Nie)");
+            scanf("%s", ans);
+            if (strcmp(ans, "Nie") == 0){
+                printf("W takim razie konczymy!");
+                exit(1);
+            } else {
+                continue;
+            }
+        }
         char *line = NULL;
         size_t len = 0;
-        if (fp == NULL) {
-            printf("Error opening file!\n");
-            exit(1);
-        } else {
-            getline(&line, &len, fp);
-            char *token = strtok(line, " =\r\n");
-            if(strcmp(token, "----") == 0){
+        char *token;
+        while (getline(&line, &len, fp) != -1){
+            token = strtok(line, " :\r\n");
+            if(strcmp(token, "Name") == 0){
                 amount++;
             }
         }
@@ -43,31 +68,37 @@ int checkBodyAmount(char **filename, int nFiles) {
 
 int getDataFromFile(char *filename, int index){
 
-        FILE *fp = fopen(filename, "r");
-        char *line = NULL;
-        size_t len = 0;
-        getline(&line, &len, fp);
-        char *token;// = strtok(line, " \r\n");
-        while (getline(&line, &len, fp) != -1) {
-            if (strlen(line) > 2) {
-                token = strtok(line, " \r\n");
-                if (strcmp(token, "------") == 0){
-                    index++;
-                    continue;
-                }
-            } else continue;
-            if (strcmp(token, "Name:") == 0) {
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL){
+        return index;
+    }
+    char *line = NULL;
+    size_t len = 0;
+    getline(&line, &len, fp);
+    char *token;// = strtok(line, " \r\n");
+    while (getline(&line, &len, fp) != -1) {
+        if (strlen(line) > 2) {
+            token = strtok(line, " \r\n");
+            if (strcmp(token, "------") == 0){
+                index++;
+                continue;
+            }else if (strcmp(token, "Name:") == 0) {
                 dataBank[index].name = strdup(strtok(NULL, " \r\n"));
             }else if (strcmp(token, "Mass:") == 0){
-                dataBank[index].mass = atoi(strtok(NULL, " ,\r\n"));
+                dataBank[index].mass = atof(strtok(NULL, " ,\r\n"));
             } else if (strcmp(token, "Position:") == 0) {
-                dataBank[index].posX = atoi(strtok(NULL, " ,\r\n"));
-                dataBank[index].posY = atoi(strtok(NULL, " ,\r\n"));
+                dataBank[index].posX = atof(strtok(NULL, " ,\r\n"));
+                dataBank[index].posY = atof(strtok(NULL, " ,\r\n"));
+                dataBank[index].posZ = atof(strtok(NULL, " ,\r\n"));
             } else if (strcmp(token, "Velocity:") == 0) {
-                dataBank[index].velocityX = atoi(strtok(NULL, " ,\r\n"));
-                dataBank[index].velocityY = atoi(strtok(NULL, " ,\r\n"));
+                dataBank[index].velocityX = atof(strtok(NULL, " ,\r\n"));
+                dataBank[index].velocityY = atof(strtok(NULL, " ,\r\n"));
+                dataBank[index].velocityZ = atof(strtok(NULL, " ,\r\n"));
+                printf("cos");
             }
         }
-    return index;
 
+    }
+
+    return index;
 }
