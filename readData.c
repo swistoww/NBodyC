@@ -16,16 +16,6 @@ struct body *readData(char **filename, int nFiles) {
 
     dataBank = malloc(size * sizeof(struct body));
 
-    /*for (int k = 0; k < size; k++){
-        dataBank[k].name = NULL;
-        dataBank[k].posX = NULL;
-        dataBank[k].posY = NULL;
-        dataBank[k].posZ = NULL;
-        dataBank[k].velocityX = NULL;
-        dataBank[k].velocityY = NULL;
-        dataBank[k].velocityZ = NULL;
-    }*/
-
     for (j = 0; j < nFiles; j++){
         index = getDataFromFile(filename[j], index);
     }
@@ -56,7 +46,7 @@ int checkBodyAmount(char **filename, int nFiles) {
         char *token;
         while (getline(&line, &len, fp) != -1){
             token = strtok(line, " :\r\n");
-            if(strcmp(token, "Name") == 0){
+            if(strcmp(token, "Nazwa") == 0){
                 amount++;
             }
         }
@@ -80,21 +70,21 @@ int getDataFromFile(char *filename, int index){
         if (strlen(line) > 2) {
             token = strtok(line, " \r\n");
             if (strcmp(token, "------") == 0){
-                index++;
-                continue;
-            }else if (strcmp(token, "Name:") == 0) {
+               index++;
+               continue;
+            }else if (strcmp(token, "Nazwa:") == 0) {
                 dataBank[index].name = strdup(strtok(NULL, " \r\n"));
-            }else if (strcmp(token, "Mass:") == 0){
+                //index++;
+            }else if (strcmp(token, "Masa:") == 0){
                 dataBank[index].mass = atof(strtok(NULL, " ,\r\n"));
-            } else if (strcmp(token, "Position:") == 0) {
+            } else if (strcmp(token, "Pozycja:") == 0) {
                 dataBank[index].posX = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].posY = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].posZ = atof(strtok(NULL, " ,\r\n"));
-            } else if (strcmp(token, "Velocity:") == 0) {
+            } else if (strcmp(token, "Predkosc:") == 0) {
                 dataBank[index].velocityX = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].velocityY = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].velocityZ = atof(strtok(NULL, " ,\r\n"));
-                printf("cos");
             }
         }
 

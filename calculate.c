@@ -32,6 +32,7 @@ void calculateNewPosition(int index, long timeDiff, int size){
     dataBank[index].posX += dataBank[index].velocityX * timeDiff;
     dataBank[index].posY += dataBank[index].velocityY * timeDiff;
     dataBank[index].posZ += dataBank[index].velocityZ * timeDiff;
+
 }
 
 void calculateAllPositions(int size, long timeDiff){
@@ -39,18 +40,28 @@ void calculateAllPositions(int size, long timeDiff){
     for (i=0; i < size; i++){
         calculateNewPosition(i, timeDiff, size);
     }
+    double followed[] = {dataBank[0].posX, dataBank[0].posY, dataBank[0].posZ};
+
+    int j;
+    for (j = 0; j < size; ++j) {
+        dataBank[j].posX = dataBank[j].posX - followed[0];
+        dataBank[j].posY = dataBank[j].posY - followed[1];
+        dataBank[j].posZ = dataBank[j].posZ - followed[2];
+    }
 }
 
 void nBodySimulation(long timeDiff, long duration, char *outputPath){
     long actualTimeSec = 0;
-    int iteration = 0;
+    //int iteration = 0;
+
+    createFiles(outputPath, size);
     while (actualTimeSec < duration){
         if (actualTimeSec==0){
-            printIterationToFile(outputPath, size, iteration);
+            printIterationToFile(fileNames, size);
         }
         calculateAllPositions(size, timeDiff);
-        iteration++;
-        printIterationToFile(outputPath, size, iteration);
+        //iteration++;
+        printIterationToFile(fileNames, size);
 
         actualTimeSec += timeDiff;
     }

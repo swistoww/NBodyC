@@ -20,4 +20,6 @@ struct body *dataBank;
 
 int size;
 
+char **fileNames;
+
 #endif //NBODY_GLOBALVARIABLES_H

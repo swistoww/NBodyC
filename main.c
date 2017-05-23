@@ -15,21 +15,21 @@
 #include <ctype.h>
 
 int main(int argc, char **argv) {
-    char *tmpString;
+    /*char *tmpString;
     if (argc < 6){
         printf("Zbyt malo argumentow wywolania. Sprawdz dokladnie w jaki sposob uruchamiac program");
         exit(1);
-    }
-    checkNumericArgument(argv[1]);
-    checkNumericArgument(argv[2]);
-    checkNumericArgument(argv[4]);
+    }*/
+    //checkNumericArgument(argv[1]);
+    //checkNumericArgument(argv[2]);
+    //checkNumericArgument(argv[4]);
 
     char **filename, *outputPath;
     int i, iterations = atoi(argv[1]);
     long timeDiff = atoi(argv[2]), timeDiffSec, timeEndSec;
     char timeUnit = *argv[3];
     int nFiles = atoi(argv[4]);
-    checkFileNumber(nFiles, argc);
+    //checkFileNumber(nFiles, argc);
     filename = malloc(nFiles*sizeof(char*));
     for (i=0; i < nFiles; i++){
         filename[i] = strdup(argv[i+5]);

@@ -1,0 +1,146 @@
+\documentclass[a4paper,11pt,notitlepage]{article}
+\usepackage[utf8]{inputenc}	% latin2 - kodowanie iso-8859-2; cp1250 - kodowanie windows
+\usepackage[T1]{fontenc}
+\usepackage{enumitem}
+\usepackage[polish]{babel}
+\usepackage[MeX]{polski}
+\selectlanguage{polish}
+
+\usepackage{graphicx}
+
+\hyphenation{FreeBSD}
+
+\author{Wojciech Świstowski (252572)}
+\title{Specyfikacja Funkcjonalna projektu Problem N-Ciał}
+\date{\today}
+
+\linespread{1.3}
+
+\usepackage{indentfirst}
+
+\begin{document}
+\maketitle
+
+\section{Cel projektu}
+
+Celem projektu Problem N-Ciał jest stworzenie programu, który będzie obliczał pozycje ciał w trójwymiarowej przestrzeni dla kolejnych kroków czasowych.
+
+\section{Funkcjonalności}
+Program będzie realizował następujące funkcjonalności:
+\begin{itemize}[noitemsep]
+	\item Wczytywanie do programu jednego lub kliku plików z danymi zawierającymi parametry ciał (masę, położenie, prędkość)
+	\item Ustawianie przy wywoływaniu programu parametrów symulacji: długości kroku czasowego, długości symulacji
+	\item Obliczanie pozycji każdego wczytanego ciała w kolejnych krokach czasowych
+	\item Generowanie zestawu plików, gdzie każdy kolejny plik zawiera położenie planet po upływie określonego czasu (ustawianego przez użytkownika)
+	\item Pliki wygenerowane za pomocą programu będą mogły być użyte do wyświetlenia symulacji w programie Gnuplot
+	\item Możliwość ustawienia śledzonego ciała.
+\end{itemize}
+
+\section{Wywołanie}
+Uruchomienie programu będzie się odbywało z linii poleceń według podanego przykładu:
+
+\footnotesize\begin{verbatim}
+% nBody 3 h 1000 2 dane1.txt dane2.txt ../wyniki/
+\end{verbatim}\normalsize
+
+Gdzie kolejne parametry wywołania programu to:
+\begin{itemize}[noitemsep]
+	\item Długość kroku czasowego pomiędzy kolejnymi pozycjami ciał. Musi być liczbą całkowitą mieszczącą się w przedziale 0 - 65 535 (unsigned integer)
+ 	\item Jednostka czasu kroku czasowego. Dostepne są następujące opcje:
+	\begin{itemize}[noitemsep]
+		\item s - sekundy
+		\item m - minuty
+		\item h - godziny
+		\item d - dni
+		\item w - tygodnie
+		\item y - lata
+	\end{itemize}
+	\item Ilość iteracji po których nastąpi koniec symulacji. Musi być liczbą całkowitą mieszczącą się w przedziale 0 - 65 535 
+	\item Liczba plików z danymi. 
+	\item Ścieżka do pliku z danymi.
+	\item Ścieżka do kolejnego pliku z danymi
+	\item Parametr opcjonalny - ścieżka do katalogu z plikami wyjściowymi. Domyślnie jest to './results/'.
+\end{itemize}
+
+\section{Dane wejściowe}
+Pliki służące jako dane wejściowe będą musiały mieć określony format, aby program mógł je przetworzyć. W przypadku niepoprawnego formatowania pliku, program poinformuje użytkownika o konieczności poprawienia błędnego pliku i wyświetli przykładowy plik.
+
+\vspace{0.1in}
+Obsługiwany format danych wejściowych:
+
+\vspace{0.1in}
+
+\footnotesize\begin{verbatim}
+Cialo: "nazwa-ciała"
+Masa: "masa-ciala"
+Pozycja: "położenie-ciała-w-układzie-XYZ"
+Predkosc: "wektor-predkosci-ciała-w-układzie-XYZ"
+------
+Cialo: "nazwa-ciała"
+...
+\end{verbatim}\normalsize
+\vspace{0.1in}
+Gdzie:
+\begin{itemize}[noitemsep]
+		\item "nazwa-ciala" może składać się wyłącznie z liter
+		\item "masa-ciala" (podana w kilogramach) może być wyłącznie liczbą większą od 0  
+		\item "położenie-ciała-w-układzie-XYZ" (podane w metrach) jest położeniem względem obserwowanego obiektu w chwili początkowej
+		\item "wektor-predkosci-ciała-w-układzie-XYZ" (podane w metrach/sek) jest wektorem prędkości w chwili początkowej
+		\item ------ jest obowiązkowym separatorem pomiędzy ciałami
+	\end{itemize}
+
+\vspace{0.1in}
+Przykładowy plik z danymi zawierający 2 ciała:
+
+\vspace{0.1in}
+
+\footnotesize\begin{verbatim}
+Nazwa: ziemia
+Masa: 152134213
+Pozycja: 5632134,516341421,235132421
+Predkosc: 105123123,232154123,554214312
+------
+Nazwa: mars
+Masa: 54217984371290
+Pozycja: 3032421,2342154213,5251324123
+Predkosc: 4031241231,214213213,53412121321
+\end{verbatim}\normalsize
+\section{Dane wyjściowe}
+Danymi wyjściowymi będą pliki zawierające położenie ciał w przestrzeni. Dla każdego ciała stworzony zostanie oddzielny plik, który będzie zawierał kolejne położenia ciała. Pliki będą miały nazwy takie same jak obiekty dla których obliczane będzie położenie, a rozszerzeniem będzie '.txt'.
+
+\vspace{0.1in}
+Przykład pliku z danymi wyjściowymi:
+
+\vspace{0.1in}
+\begin{tabular}{llll}
+
+\#& X & Y & Z\\
+ & 24 & 45 & 23\\
+ & 12 & -41 & -14\\
+ & 34 & 26 & -7\\
+ & -18 & 13 & 27\\
+\end{tabular}
+
+\section{Obsługa błędów}
+Program będzie miał zaimplementowaną obsługę błędów w sposób pozwalający na szybkie ich zidentyfikowanie i poprawienie. W przypadku wystąpienia błędu użytkownik zostanie poinformowany o tym za pomocą odpowiedniego komunikatu.  
+
+\vspace{0.1in}
+Błędy, które będą obsłużone w programie:
+
+\vspace{0.1in}
+\begin{tabular}{p{3cm}|p{8cm}}
+
+Przyczyna błędu& Sposób obsłużenia\\
+\hline\hline
+Niepoprawne wywołanie programu & Program wyświetli komunikat informujący który argument wywołał błąd. Następnie zakończy swoje działanie.\\
+\hline
+Niekompletne dane wejściowe & Program wyświetli komunikat informujący której danej brakuje. Następnie zakończy swoje działanie.\\
+\hline
+Niepoprawny typ danych wejściowych & Program wyświetli komunikat informujący które dane są niepoprawne, a następnie zakończy działanie.\\
+\hline
+Dane dublujące się & Program wyświetli komunikat które dane się dublują, a następnie zakończy działanie.\\
+\hline
+Niepoprawna ścieżka do folderu z wynikami & Program wyświetli komunikat o niepoprawnej ścieżce. Wyniki zostaną zapisane do folderu ./results/\\
+
+\end{tabular}
+\end{document}

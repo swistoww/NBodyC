@@ -15,7 +15,34 @@ void printData(struct body *dataBank, int size){
     }
 }
 
-void printIterationToFile(char *filePath, int size, int iteration){
+void createFiles(char *filePath, int size){
+
+    int i,j;
+    FILE *fp;
+    fileNames = malloc(size * sizeof(char*));
+    for (j = 0; j < size; ++j) {
+        fileNames[j] = malloc(100 * sizeof(char));
+    }
+
+    for (i = 0; i < size; i++){
+        strcpy(fileNames[i], filePath);
+        strcat(fileNames[i], dataBank[i].name);
+        strcat(fileNames[i], ".txt");
+        fp = fopen(fileNames[i], "w");
+        fprintf(fp, "#\tX\tY\tZ\r\n");
+    }
+}
+
+void printIterationToFile(char **fileNames, int size){
+    int i;
+    FILE *fp;
+    for (i = 0; i < size; i++){
+        fp = fopen(fileNames[i], "a");
+        fprintf(fp, "\t%f\t%f\t%f\r\n", dataBank[i].posY, dataBank[i].posX, dataBank[i].posZ);
+    }
+}
+
+/*void printIterationToFile(char *filePath, int size, int iteration){
     int i;
     FILE *fp;
     char fileName[100];
@@ -34,4 +61,4 @@ void printIterationToFile(char *filePath, int size, int iteration){
 
 void createScript(){
 
-}
+}*/

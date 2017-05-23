@@ -11,7 +11,8 @@
 #include "readData.h"
 
 void printData(struct body *dataBank,int size);
-void printIterationToFile(char *filePath, int size, int iteration);
+void printIterationToFile(char **fileNames, int size);
+void createFiles(char *filePath, int size);
 void createScript();
 
 #endif
