@@ -18,5 +18,6 @@ void calculateNewPosition(int index, long timeDiff, int size);
 void calculateAllPositions(int size, long timeDiff);
 void nBodySimulation(long timeDiff, long duration, char *outputPath);
 long calculateTime(long value, char unit);
+void adaptPositions();
 
 #endif

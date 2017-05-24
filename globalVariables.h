@@ -22,4 +22,8 @@ int size;
 
 char **fileNames;
 
+double range;
+
+int followedBody = -1;
+
 #endif //NBODY_GLOBALVARIABLES_H
