@@ -10,8 +10,8 @@ void printData(struct body *dataBank, int size){
     for (i=0; i < size; i++){
         printf("Ciało: %s \n", dataBank[i].name);
         printf("Masa: %f\n", dataBank[i].mass);
-        printf("Polozenie: %f, %f\n", dataBank[i].posX, dataBank[i].posY);
-        printf("Predkosc: %f, %f\n\n", dataBank[i].velocityX, dataBank[i].velocityY);
+        printf("Polozenie: %f, %f\n", dataBank[i].posX, dataBank[i].posY, dataBank[i].posZ);
+        printf("Predkosc: %f, %f\n\n", dataBank[i].velocityX, dataBank[i].velocityY, dataBank[i].velocityZ);
     }
 }
 

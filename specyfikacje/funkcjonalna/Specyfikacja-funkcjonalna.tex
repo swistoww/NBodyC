@@ -31,20 +31,20 @@ Program będzie realizował następujące funkcjonalności:
 	\item Wczytywanie do programu jednego lub kliku plików z danymi zawierającymi parametry ciał (masę, położenie, prędkość)
 	\item Ustawianie przy wywoływaniu programu parametrów symulacji: długości kroku czasowego, długości symulacji
 	\item Obliczanie pozycji każdego wczytanego ciała w kolejnych krokach czasowych
-	\item Generowanie zestawu plików, gdzie każdy kolejny plik zawiera położenie planet po upływie określonego czasu (ustawianego przez użytkownika)
+	\item Generowanie zestawu plików, gdzie każdy kolejny plik zawiera położenie ciała w każdym kroku czasowym (ustawianego przez użytkownika)
 	\item Pliki wygenerowane za pomocą programu będą mogły być użyte do wyświetlenia symulacji w programie Gnuplot
-	\item Możliwość ustawienia śledzonego ciała.
 \end{itemize}
 
 \section{Wywołanie}
 Uruchomienie programu będzie się odbywało z linii poleceń według podanego przykładu:
 
 \footnotesize\begin{verbatim}
-% nBody 3 h 1000 2 dane1.txt dane2.txt ../wyniki/
+% nBody 1000 3 h 2 dane1.txt dane2.txt ../wyniki/
 \end{verbatim}\normalsize
 
 Gdzie kolejne parametry wywołania programu to:
 \begin{itemize}[noitemsep]
+	\item Ilość iteracji po których nastąpi koniec symulacji. Musi być liczbą całkowitą mieszczącą się w przedziale 0 - 65 535 
 	\item Długość kroku czasowego pomiędzy kolejnymi pozycjami ciał. Musi być liczbą całkowitą mieszczącą się w przedziale 0 - 65 535 (unsigned integer)
  	\item Jednostka czasu kroku czasowego. Dostepne są następujące opcje:
 	\begin{itemize}[noitemsep]
@@ -55,7 +55,6 @@ Gdzie kolejne parametry wywołania programu to:
 		\item w - tygodnie
 		\item y - lata
 	\end{itemize}
-	\item Ilość iteracji po których nastąpi koniec symulacji. Musi być liczbą całkowitą mieszczącą się w przedziale 0 - 65 535 
 	\item Liczba plików z danymi. 
 	\item Ścieżka do pliku z danymi.
 	\item Ścieżka do kolejnego pliku z danymi
