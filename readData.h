@@ -14,4 +14,5 @@ struct body *readData(char **filename, int nFiles);
 int getDataFromFile(char *filename, int index);
 int checkBodyAmount(char **filename, int nFiles);
 
+
 #endif

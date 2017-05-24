@@ -85,6 +85,15 @@ int getDataFromFile(char *filename, int index){
                 dataBank[index].velocityX = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].velocityY = atof(strtok(NULL, " ,\r\n"));
                 dataBank[index].velocityZ = atof(strtok(NULL, " ,\r\n"));
+            } else if (strcmp(token, "Centrum:") == 0) {
+                if (strcmp(strtok(NULL, " ,\r\n"), "Tak") == 0){
+                    if (followedBody == -1){
+                        followedBody = index;
+                    } else {
+                        printf("Nie moge sledzic wiecej niz jednego ciala jednoczesnie.");
+                        exit(1);
+                    }
+                }
             }
         }
 

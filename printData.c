@@ -31,6 +31,8 @@ void createFiles(char *filePath, int size){
         fp = fopen(fileNames[i], "w");
         fprintf(fp, "#\tX\tY\tZ\r\n");
     }
+
+    printf("Pliki z wynikami zostaly stworzone w lokalizacji:\n %s", filePath);
 }
 
 void printIterationToFile(char **fileNames, int size){
@@ -42,23 +44,12 @@ void printIterationToFile(char **fileNames, int size){
     }
 }
 
-/*void printIterationToFile(char *filePath, int size, int iteration){
-    int i;
+void createScript(char **fileNames, int size, char *filePath, double range){
+
     FILE *fp;
-    char fileName[100];
-    strcpy(fileName, filePath);
-    strcat(fileName, "wynik");
-    sprintf(fileName, "%s%d", fileName, iteration);
-    strcat(fileName, ".txt");
-
-    fp = fopen(fileName, "w");
-    fprintf(fp, "#\tX\tY\tZ\r\n");
-    for (i=0; i<size; i++){
-        fprintf(fp, "\t%f\t%f\t%f\r\n", dataBank[i].posY, dataBank[i].posX, dataBank[i].posZ);
-        fprintf(fp, "\r\n");
-    }
+    char scriptFile[100];
+    strcpy(scriptFile, filePath);
+    strcat(scriptFile, "gnuplotSkrypt.plt");
+    fp = fopen(scriptFile, "w");
+    fprintf(fp, )
 }
-
-void createScript(){
-
-}*/

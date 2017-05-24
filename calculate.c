@@ -30,24 +30,24 @@ void calculateNewPosition(int index, long timeDiff, int size){
     dataBank[index].velocityZ += acceleration[2] * timeDiff;
 
     dataBank[index].posX += dataBank[index].velocityX * timeDiff;
+    if (fabs(dataBank[index].posX) > range)
+        range = fabs(dataBank[index].posX);
     dataBank[index].posY += dataBank[index].velocityY * timeDiff;
+    if (fabs(dataBank[index].posY) > range)
+        range = fabs(dataBank[index].posY);
     dataBank[index].posZ += dataBank[index].velocityZ * timeDiff;
-
+    if (fabs(dataBank[index].posZ) > range)
+        range = fabs(dataBank[index].posZ);
 }
 
 void calculateAllPositions(int size, long timeDiff){
+    adaptPositions();
+
     int i;
     for (i=0; i < size; i++){
         calculateNewPosition(i, timeDiff, size);
     }
-    double followed[] = {dataBank[0].posX, dataBank[0].posY, dataBank[0].posZ};
-
-    int j;
-    for (j = 0; j < size; ++j) {
-        dataBank[j].posX = dataBank[j].posX - followed[0];
-        dataBank[j].posY = dataBank[j].posY - followed[1];
-        dataBank[j].posZ = dataBank[j].posZ - followed[2];
-    }
+    adaptPositions();
 }
 
 void nBodySimulation(long timeDiff, long duration, char *outputPath){
@@ -55,16 +55,15 @@ void nBodySimulation(long timeDiff, long duration, char *outputPath){
     //int iteration = 0;
 
     createFiles(outputPath, size);
+    printIterationToFile(fileNames, size);
     while (actualTimeSec < duration){
-        if (actualTimeSec==0){
-            printIterationToFile(fileNames, size);
-        }
         calculateAllPositions(size, timeDiff);
         //iteration++;
         printIterationToFile(fileNames, size);
 
         actualTimeSec += timeDiff;
     }
+    range = 1.1 * range;
 }
 
 
@@ -95,4 +94,18 @@ long calculateTime(long value, char unit){
     }
 
     return time;
+}
+
+void adaptPositions(){
+    if (followedBody != -1){
+        double followed[3] = {dataBank[followedBody].posX, dataBank[followedBody].posY, dataBank[followedBody].posZ};
+
+        int j;
+        for (j = 0; j < size; ++j) {
+            dataBank[j].posX = dataBank[j].posX - followed[0];
+            dataBank[j].posY = dataBank[j].posY - followed[1];
+            dataBank[j].posZ = dataBank[j].posZ - followed[2];
+        }
+    }
+
 }

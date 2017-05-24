@@ -39,7 +39,6 @@ int main(int argc, char **argv) {
         outputPath = "./results/";
     } else {
         outputPath = argv[i+5];
-        mkdir(outputPath, 0700);
         struct stat st = {0};
 
         if (stat(outputPath, &st) == -1) {
@@ -53,6 +52,9 @@ int main(int argc, char **argv) {
     timeDiffSec = calculateTime(timeDiff, timeUnit);
     timeEndSec = iterations * timeDiffSec;
     nBodySimulation(timeDiffSec, timeEndSec, outputPath);
+
+    free(dataBank);
+    free(fileNames);
 
     return(0);
 }
