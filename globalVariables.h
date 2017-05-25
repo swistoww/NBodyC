@@ -24,6 +24,6 @@ char **fileNames;
 
 double range;
 
-int followedBody = -1;
+int followedBody;
 
 #endif //NBODY_GLOBALVARIABLES_H

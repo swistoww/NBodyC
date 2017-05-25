@@ -13,6 +13,6 @@
 void printData(struct body *dataBank,int size);
 void printIterationToFile(char **fileNames, int size);
 void createFiles(char *filePath, int size);
-void createScript();
+void createScript(char **fileNames, int size, char *filePath, double range, int iterations);
 
 #endif

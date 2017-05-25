@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+//#include <unistd.h>
 #include <ctype.h>
 
 int main(int argc, char **argv) {
@@ -23,7 +24,7 @@ int main(int argc, char **argv) {
     //checkNumericArgument(argv[1]);
     //checkNumericArgument(argv[2]);
     //checkNumericArgument(argv[4]);
-
+    followedBody = -1;
     char **filename, *outputPath;
     int i, iterations = atoi(argv[1]);
     long timeDiff = atoi(argv[2]), timeDiffSec, timeEndSec;
@@ -36,7 +37,9 @@ int main(int argc, char **argv) {
     }
 
     if (argv[i+5] == NULL){
-        outputPath = "./results/";
+        char cwd[1024];
+        outputPath = getcwd(cwd, sizeof(cwd));
+        strcat(outputPath, "/results/");
     } else {
         outputPath = argv[i+5];
         struct stat st = {0};
@@ -52,6 +55,7 @@ int main(int argc, char **argv) {
     timeDiffSec = calculateTime(timeDiff, timeUnit);
     timeEndSec = iterations * timeDiffSec;
     nBodySimulation(timeDiffSec, timeEndSec, outputPath);
+    createScript(fileNames, size, outputPath, range, iterations);
 
     free(dataBank);
     free(fileNames);

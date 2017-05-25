@@ -17,13 +17,13 @@ void calculateNewPosition(int index, long timeDiff, int size){
 
         distanceNorm = sqrt(pow(distance[0],2) + pow(distance[1],2) + pow(distance[2],2));
 
-        force[0] = G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2) * distance[0]/distanceNorm;
-        force[1] = G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2) * distance[1]/distanceNorm;
-        force[2] = G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2) * distance[2]/distanceNorm;
+        force[0] = (G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2)) * distance[0]/distanceNorm;
+        force[1] = (G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2)) * distance[1]/distanceNorm;
+        force[2] = (G * dataBank[i].mass * dataBank[index].mass / pow(distanceNorm,2)) * distance[2]/distanceNorm;
     }
-    acceleration[0] = force[0] / dataBank[index].mass;
-    acceleration[1] = force[1] / dataBank[index].mass;
-    acceleration[2] = force[2] / dataBank[index].mass;
+    acceleration[0] -= force[0] / dataBank[index].mass;
+    acceleration[1] -= force[1] / dataBank[index].mass;
+    acceleration[2] -= force[2] / dataBank[index].mass;
 
     dataBank[index].velocityX += acceleration[0] * timeDiff;
     dataBank[index].velocityY += acceleration[1] * timeDiff;
@@ -47,6 +47,14 @@ void calculateAllPositions(int size, long timeDiff){
     for (i=0; i < size; i++){
         calculateNewPosition(i, timeDiff, size);
     }
+
+    /*double followed[3] = {dataBank[0].posX, dataBank[0].posY, dataBank[0].posZ};
+    int j;
+    for (j = 0; j < size; ++j) {
+        dataBank[j].posX = dataBank[j].posX - followed[0];
+        dataBank[j].posY = dataBank[j].posY - followed[1];
+        dataBank[j].posZ = dataBank[j].posZ - followed[2];
+    }*/
     adaptPositions();
 }
 

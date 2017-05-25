@@ -44,12 +44,23 @@ void printIterationToFile(char **fileNames, int size){
     }
 }
 
-void createScript(char **fileNames, int size, char *filePath, double range){
-
+void createScript(char **fileNames, int size, char *filePath, double range, int iterations){
+    int i;
     FILE *fp;
     char scriptFile[100];
     strcpy(scriptFile, filePath);
     strcat(scriptFile, "gnuplotSkrypt.plt");
     fp = fopen(scriptFile, "w");
-    fprintf(fp, )
+    fprintf(fp, "set xrange [-%f:%f]\n", range, range);
+    fprintf(fp, "set yrange [-%f:%f]\n", range, range);
+    fprintf(fp, "set zrange [-%f:%f]\n", range, range);
+    fprintf(fp, "do for [ii=1:%d] {\n", iterations);
+    fprintf(fp, "splot \t\"%s\" every ::ii::ii pt 7 ps 1 title \"%s\", \\\n", fileNames[0], dataBank[0].name);
+
+    for (i = 1; i < size-1; ++i) {
+        fprintf(fp, "\t\"%s\" every ::ii::ii pt 7 ps 1 title \"%s\", \\\n", fileNames[i], dataBank[i].name);
+    }
+    fprintf(fp, "\t\"%s\" every ::ii::ii pt 7 ps 1 title \"%s\"\n", fileNames[i], dataBank[i].name);
+    fprintf(fp, "pause 0.01\n}");
+
 }
